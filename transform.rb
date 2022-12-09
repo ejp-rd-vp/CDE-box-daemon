@@ -18,11 +18,14 @@ def update
   warn 'first open3 git pull'
   o, e, _s = Open3.capture3('cd CDE-semantic-model-implementations && git pull')
   warn "second open3 copy yarrrml #{o}  #{e}"
-  o, e, _s = Open3.capture3('cp -rf ./CDE-semantic-model-implementations/YARRRML_Transform_Templates/templates/*.yaml  /config')
+  # o, e, _s = Open3.capture3('cp -rf ./CDE-semantic-model-implementations/YARRRML_Transform_Templates/templates/*.yaml  /config')
+  o, e, _s = Open3.capture3('cp -rf ./CDE-semantic-model-implementations/CDE_version_2.0.0/YARRRML/*.yaml  /config')
   warn "second open3 complete #{o} #{e}"
 end
 
 def metadata_update
+  return if (ENV['DIST_RECORDID'].nil?) || (ENV['DATASET_RECORDID'].nil?) || (ENV['DATA_SPARQL_ENDPOINT'].nil?)  
+  return if (ENV['DIST_RECORDID'].empty?) || (ENV['DATASET_RECORDID'].empty?) || (ENV['DATA_SPARQL_ENDPOINT'].empty?)  
   warn 'calling metadata updater image'
   resp = RestClient.get('http://updater:4567/update')
   warn resp
@@ -50,18 +53,23 @@ def execute
   files = Dir['/data/triples/*.nt']
   concatenated = ''
   files.each do |f|
-    content = File.open(f, 'r').read
+    content = File.read(f)
     concatenated += content
   end
+  File.open('/tmp/check.nt', 'w') do |file|
+    file.write(concatenated)
+  end
+
   write_to_graphdb(concatenated)
 end
 
 def write_to_graphdb(concatenated)
-  user = ENV['GraphDB_User']
-  pass = ENV['GraphDB_Pass']
+  user = ENV.fetch('GraphDB_User', nil)
+  pass = ENV.fetch('GraphDB_Pass', nil)
   network = ENV['networkname'] || 'graphdb'
   url = "http://#{network}:7200/repositories/cde/statements"
-  headers = { content_type: 'application/n-triples' }
+#  headers = { content_type: 'application/n-triples' }
+  headers = { content_type: 'application/n-quads' }
 
   HTTPUtils.put(url, headers, concatenated, user, pass)
 end

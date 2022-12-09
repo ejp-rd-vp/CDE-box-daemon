@@ -4,7 +4,7 @@ services:
 # if you are already running Rajaram's GraphDB image, then don't execute this portion
 # the other portions will connect to Rajaram's GraphDB network
 #  graphdb:
-#    image: graph-db:9.7.0
+#    image: graph-db:9.7.0  # fix to whatever the name of your graphdb image is...
 #    restart: always
 #    hostname: graphdb
 #    ports:
@@ -13,14 +13,15 @@ services:
 #      - graphdb-data:/opt/graphdb/home
 #    networks:
 #      - default
-      #- bootstrap_graphdb_net 
+      #- bootstrap_graphdb_net  # check your networks to see where the bootstrap is
 
 
 # note that if you have not set-up specific security on graphdb,
 # you do not need to set the environment, but it also does no harm.
 # We recommend using a .env file in this folder to set your environment
   cde-box-daemon: 
-    image: markw/cde-box-daemon:0.2.0
+#    image: markw/cde-box-daemon:0.3.0   # to use the version 1 CDE models
+    image: markw/cde-box-daemon:0.4.0    # to use the version 2 CDE models
     container_name: cde-box-daemon
     environment:
       GraphDB_User: ${GraphDB_User}
