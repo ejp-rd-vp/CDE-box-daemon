@@ -53,8 +53,10 @@ def execute
   files = Dir['/data/triples/*.nt']
   concatenated = ''
   files.each do |f|
+    warn "Processing file #{f}"
     content = File.read(f)
     concatenated += content
+    warn "The length of the content to upload is now #{concatenated.length}"
   end
   File.open('/tmp/check.nt', 'w') do |file|
     file.write(concatenated)
@@ -77,7 +79,7 @@ end
 def purge_nt
   File.delete('/data/triples/*.nt')
 rescue StandardError
-  warn ''
+  warn 'Deleting the exisiting .nt files failed!'
 ensure
   warn 'looks like it is already clean in here!'
 end
