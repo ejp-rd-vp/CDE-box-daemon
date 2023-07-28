@@ -1,4 +1,3 @@
-require './CDE_Transform'
 require 'sinatra'
 require 'rest-client'
 require './http_utils'
@@ -27,37 +26,46 @@ def update
 end
 
 def hefesto
-  datatype_list = Dir['/data/preCSV.csv']
-  datatype_list.each do |d|  # now it is always '/data/preCSV.csv'... but maybe one day we will be more flexible?
-    datatype = d.match(%r{.+/([^.]+)\.csv})[1]
-    next unless datatype
+  warn "starting Hefesto"
+  # datatype_list = Dir['/data/preCDE.csv']
+  # datatype_list.each do |d|  # now it is always '/data/preCSV.csv'... but maybe one day we will be more flexible?
+  #   datatype = d.match(%r{.+/([^.]+)\.csv})[1]
+  #   next unless datatype
 
-    _res = RestClient.post('http://hefesto:8000/hefesto-fiab', '{}')
-    sleep 3
-  end
+  warn "calling the hefesto interface Hefesto"
+  _res = RestClient.post('http://hefesto:8000/hefesto-fiab', '{}')
+  sleep 3
+  warn _res.inspect
+  # end
+  # warn "finished Hefesto"
 end
 
 def yarrrml_substitute
-  template_list = Dir['/conf/CSV_yarrrml_template.yaml']
+  warn "starting yarrrml substitution"
   baseURI = ENV.fetch('baseURI', 'http://example.org/')
-  template_list.each do |t|  # now it is always /conf/CSV_yarrrml_template.yaml... but maybe one day we will be more flexible?
-    content = File.read(t)
-    content.gsub!('|||baseURI|||', baseURI)
-    f = File.write('/data/CSV_yarrrml.yaml')
-    f.puts content
-    f.close
-  end
+  baseURI = 'http://example.org/' if baseURI.empty?
+# template_list = Dir['/conf/CSV_yarrrml_template.yaml']
+# template_list.each do |t|  # now it is always /conf/CSV_yarrrml_template.yaml... but maybe one day we will be more flexible?
+  content = File.read('/config/CDE_yarrrml_template.yaml')
+  content.gsub!('|||baseURI|||', baseURI)
+  f = File.open('/data/CDE_yarrrml.yaml', "w")
+  f.puts content
+  f.close
+  # end
+  warn "finished yarrrml substitution"
 end
 
 def execute
+  warn "executing transform"
   purge_nt
-  datatype_list = Dir['/data/*.csv']
+  datatype_list = Dir['/data/CDE.csv']
   datatype_list.each do |d|
     datatype = d.match(%r{.+/([^.]+)\.csv})[1]
     next unless datatype
 
     _resp = RestClient.get("http://yarrrml-rdfizer:4567/#{datatype}")
   end
+  warn "done transform"
 end
 
 def load_cde
