@@ -3,7 +3,6 @@ services:
 
 
   cde-box-daemon: 
-#    image: markw/cde-box-daemon:0.3.0   # to use the version 1 CDE models
     image: markw/cde-box-daemon:0.5.0    # to use the version 2 CDE models with Hefesto
     container_name: cde-box-daemon
     environment:

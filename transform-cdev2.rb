@@ -79,14 +79,15 @@ def load_cde
   end
   File.write('/tmp/check.nt', concatenated)
 
-  # write_to_graphdb(concatenated)
+  write_to_graphdb(concatenated)
 end
 
 def write_to_graphdb(concatenated)
   user = ENV.fetch('GraphDB_User', nil)
   pass = ENV.fetch('GraphDB_Pass', nil)
   network = ENV['networkname'] || 'graphdb'
-  url = "http://#{network}:7200/repositories/cde/statements"
+  reponame = ENV.fetch('GRAPHDB_REPONAME')
+  url = "http://#{network}:7200/repositories/#{reponame}/statements"
   #  headers = { content_type: 'application/n-triples' }
   headers = { content_type: 'application/n-quads' }
 
