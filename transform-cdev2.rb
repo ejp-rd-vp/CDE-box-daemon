@@ -33,7 +33,7 @@ def hefesto
   #   next unless datatype
 
   warn "calling the hefesto interface Hefesto"
-  _res = RestClient.post('http://hefesto:8000/hefesto-fiab', '{}')
+  _res = RestClient.post('http://hefesto:8000/toolkit', '{}')
   sleep 3
   warn _res.inspect
   # end
