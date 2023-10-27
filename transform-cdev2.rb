@@ -65,7 +65,7 @@ def execute
 end
 
 def load_cde
-  files = Dir['/data/triples/*.nt']
+  files = Dir['/data/triples/*.nq']
   concatenated = ''
   files.each do |f|
     warn "Processing file #{f}"
@@ -73,7 +73,7 @@ def load_cde
     concatenated += content
     warn "The length of the content to upload is now #{concatenated.length}"
   end
-  File.write('/tmp/check.nt', concatenated)
+  File.write('/tmp/check.nq', concatenated)
 
   write_to_graphdb(concatenated)
 end
