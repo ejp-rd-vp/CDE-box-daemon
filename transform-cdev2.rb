@@ -7,7 +7,7 @@ include HTTPUtils
 
 get '/' do
   update
-  hefesto
+  caresm
   yarrrml_substitute
   execute
   load_cde
@@ -18,22 +18,18 @@ end
 
 def update
   warn 'first open3 git pull'
-  o, e, _s = Open3.capture3('cd CDE-semantic-model-implementations && git pull')
+  o, e, _s = Open3.capture3('cd CARE-SM-Implementation && git pull')
   warn "second open3 copy yarrrml #{o}  #{e}"
   # o, e, _s = Open3.capture3('cp -rf ./CDE-semantic-model-implementations/YARRRML_Transform_Templates/templates/*.yaml  /config')   # CDE V1
-  o, e, _s = Open3.capture3('cp -rf ./CDE-semantic-model-implementations/CDE_version_2.0.0/YARRRML/CDE_yarrrml_template.yaml  /config') # CDE V2
+  o, e, _s = Open3.capture3('cp -rf ./CARE-SM-Implementation/YARRRML/CARE_yarrrml.yaml  /config') # CDE V2
   warn "second open3 complete #{o} #{e}"
 end
 
-def hefesto
-  warn "starting Hefesto"
-  # datatype_list = Dir['/data/preCDE.csv']
-  # datatype_list.each do |d|  # now it is always '/data/preCSV.csv'... but maybe one day we will be more flexible?
-  #   datatype = d.match(%r{.+/([^.]+)\.csv})[1]
-  #   next unless datatype
+def caresm
+  warn "starting CareSM"
 
-  warn "calling the hefesto interface Hefesto"
-  _res = RestClient.post('http://hefesto:8000/toolkit', '{}')
+  warn "calling the caresm interface"
+  _res = RestClient.post('http://caresm:8000/toolkit', '{}')
   sleep 3
   warn _res.inspect
   # end
@@ -46,9 +42,9 @@ def yarrrml_substitute
   baseURI = 'http://example.org/' if baseURI.empty?
 # template_list = Dir['/conf/CSV_yarrrml_template.yaml']
 # template_list.each do |t|  # now it is always /conf/CSV_yarrrml_template.yaml... but maybe one day we will be more flexible?
-  content = File.read('/config/CDE_yarrrml_template.yaml')
+  content = File.read('/config/CARE_Fiab_yarrrml.yaml')
   content.gsub!('|||baseURI|||', baseURI)
-  f = File.open('/data/CDE_yarrrml.yaml', "w")
+  f = File.open('/data/CARE_yarrrml.yaml', "w")
   f.puts content
   f.close
   # end
@@ -58,9 +54,9 @@ end
 def execute
   warn "executing transform"
   purge_nt
-  datatype_list = Dir['/data/CDE.csv']
+  datatype_list = Dir['/data/CARE.csv']
   datatype_list.each do |d|
-    datatype = d.match(%r{.+/([^.]+)\.csv})[1]
+    datatype = d.match(%r{.+/([^.]+)\.csv})[1]  # this is totally useless now... but we'll keep it just for posterity!
     next unless datatype
 
     _resp = RestClient.get("http://yarrrml-rdfizer:4567/#{datatype}")

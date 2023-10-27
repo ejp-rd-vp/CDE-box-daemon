@@ -11,6 +11,6 @@ WORKDIR /app
 
 RUN bundle install
 
-RUN git clone https://github.com/ejp-rd-vp/CDE-semantic-model-implementations.git
+RUN git clone https://github.com/ejp-rd-vp/CARE-SM-Implementation.git
 
 ENTRYPOINT ["sh", "entrypoint-cdev2.sh"]
