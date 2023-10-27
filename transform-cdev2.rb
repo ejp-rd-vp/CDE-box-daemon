@@ -21,7 +21,7 @@ def update
   o, e, _s = Open3.capture3('cd CARE-SM-Implementation && git pull')
   warn "second open3 copy yarrrml #{o}  #{e}"
   # o, e, _s = Open3.capture3('cp -rf ./CDE-semantic-model-implementations/YARRRML_Transform_Templates/templates/*.yaml  /config')   # CDE V1
-  o, e, _s = Open3.capture3('cp -rf ./CARE-SM-Implementation/YARRRML/CARE_yarrrml.yaml  /config') # CDE V2
+  o, e, _s = Open3.capture3('cp -rf ./CARE-SM-Implementation/YARRRML/CARE_Fiab_yarrrml.yaml  /data') # CDE V2
   warn "second open3 complete #{o} #{e}"
 end
 
@@ -42,7 +42,7 @@ def yarrrml_substitute
   baseURI = 'http://example.org/' if baseURI.empty?
 # template_list = Dir['/conf/CSV_yarrrml_template.yaml']
 # template_list.each do |t|  # now it is always /conf/CSV_yarrrml_template.yaml... but maybe one day we will be more flexible?
-  content = File.read('/config/CARE_Fiab_yarrrml.yaml')
+  content = File.read('/data/CARE_Fiab_yarrrml.yaml')
   content.gsub!('|||baseURI|||', baseURI)
   f = File.open('/data/CARE_yarrrml.yaml', "w")
   f.puts content
