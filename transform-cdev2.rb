@@ -20,7 +20,6 @@ def update
   warn 'first open3 git pull'
   o, e, _s = Open3.capture3('cd CARE-SM-Implementation && git pull')
   warn "second open3 copy yarrrml #{o}  #{e}"
-  # o, e, _s = Open3.capture3('cp -rf ./CDE-semantic-model-implementations/YARRRML_Transform_Templates/templates/*.yaml  /config')   # CDE V1
   o, e, _s = Open3.capture3('cp -rf ./CARE-SM-Implementation/YARRRML/CARE_Fiab_yarrrml.yaml  /data') # CDE V2
   warn "second open3 complete #{o} #{e}"
 end
