@@ -1,6 +1,8 @@
-FROM ruby:3.0.0
+FROM ruby:3.0.6
 
-RUN apt-get -y update && apt-get -y dist-upgrade && apt-get -y update
+RUN apt-get -y update
+RUN apt-get -y dist-upgrade
+RUN apt-get -y update
 RUN apt-get -y install git
 RUN gem install bundler:2.3.12
 # throw errors if Gemfile has been modified since Gemfile.lock
