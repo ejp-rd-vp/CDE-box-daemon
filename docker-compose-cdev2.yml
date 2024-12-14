@@ -3,7 +3,7 @@ services:
 
 
   cde-box-daemon: 
-    image: markw/cde-box-daemon:0.5.1    # to use the version 2 CDE models with Hefesto
+    image: markw/cde-box-daemon:0.5.4  
     container_name: cde-box-daemon
     environment:
       GraphDB_User: ${GraphDB_User}
@@ -23,7 +23,7 @@ services:
         
  
   care-sm-toolkit:
-    image: pabloalarconm/care-sm-toolkit:0.0.1
+    image: pabloalarconm/care-sm-toolkit:0.1.6
     hostname: caresm
     # ports:
     #   - "8000:8000"
@@ -31,7 +31,7 @@ services:
       - ./data:/code/data
 
   yarrrml-rdfizer:
-    image: markw/yarrrml-rml-ejp:0.0.3
+    image: markw/yarrrml-rml-ejp:0.1.1
     container_name: yarrrml-rdfizer
     hostname: yarrrml-rdfizer
     environment:
