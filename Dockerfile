@@ -15,6 +15,7 @@ WORKDIR /app
 
 RUN bundle install
 
-RUN git clone https://github.com/ejp-rd-vp/CARE-SM-Implementation.git
+# RUN git clone https://github.com/ejp-rd-vp/CARE-SM-Implementation.git 
+RUN git clone https://github.com/CARE-SM/CARE-SM-Implementation.git
 
 ENTRYPOINT ["sh", "entrypoint-cdev2.sh"]
