@@ -1,3 +1,14 @@
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+# DEPRECATED
+
+
+
+## Project moved into the [Sextans Suite](https://github.com/ERDERA/Sextans-Suite)
+
+
+
 # CDE-box-daemon
 The code that generates the Dockerized daemon used by FAIR-in-a-box
 
